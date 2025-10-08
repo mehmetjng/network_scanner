@@ -1,0 +1,85 @@
+[
+  {
+    "ip": "10.0.2.2",
+    "mac": "52:55:0A:00:02:02",
+    "hostname": "_gateway",
+    "vendor": "QEMU/KVM",
+    "open_ports": [
+      {
+        "port": 445,
+        "service": "SMB",
+        "banner": "",
+        "state": "open"
+      },
+      {
+        "port": 135,
+        "service": "MSRPC",
+        "banner": "",
+        "state": "open"
+      }
+    ],
+    "os_guess": "Windows",
+    "latency": "514.32ms",
+    "vulnerabilities": [
+      {
+        "severity": "CRITICAL",
+        "type": "SMB/NetBIOS Exposure",
+        "description": "SMB/NetBIOS exposed - vulnerable to WannaCry, EternalBlue, ransomware",
+        "port": 445,
+        "cve": [
+          "CVE-2017-0144",
+          "CVE-2017-0145",
+          "CVE-2020-0796"
+        ],
+        "remediation": "Disable SMBv1, update Windows, restrict SMB access to trusted networks",
+        "impact": "Remote code execution, ransomware infection, data theft"
+      },
+      {
+        "severity": "CRITICAL",
+        "type": "SMB/NetBIOS Exposure",
+        "description": "SMB/NetBIOS exposed - vulnerable to WannaCry, EternalBlue, ransomware",
+        "port": 135,
+        "cve": [
+          "CVE-2017-0144",
+          "CVE-2017-0145",
+          "CVE-2020-0796"
+        ],
+        "remediation": "Disable SMBv1, update Windows, restrict SMB access to trusted networks",
+        "impact": "Remote code execution, ransomware infection, data theft"
+      }
+    ],
+    "last_seen": "2025-10-08T07:57:04.098555635-04:00",
+    "ip_version": "IPv4"
+  },
+  {
+    "ip": "10.0.2.15",
+    "mac": "",
+    "hostname": "kali",
+    "vendor": "",
+    "open_ports": null,
+    "os_guess": "Unknown",
+    "latency": "98.99ms",
+    "vulnerabilities": null,
+    "last_seen": "2025-10-08T07:57:03.688348496-04:00",
+    "ip_version": "IPv4"
+  },
+  {
+    "ip": "10.0.2.3",
+    "mac": "52:55:0A:00:02:03",
+    "hostname": "",
+    "vendor": "QEMU/KVM",
+    "open_ports": [
+      {
+        "port": 53,
+        "service": "DNS",
+        "banner": "",
+        "state": "open"
+      }
+    ],
+    "os_guess": "Unknown",
+    "latency": "103.75ms",
+    "vulnerabilities": null,
+    "last_seen": "2025-10-08T07:57:03.68890984-04:00",
+    "ip_version": "IPv4"
+  }
+]

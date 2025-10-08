@@ -1,0 +1,15 @@
+{
+  "total_devices": 3,
+  "total_open_ports": 3,
+  "total_vulnerabilities": 2,
+  "critical_vulnerabilities": 2,
+  "high_vulnerabilities": 0,
+  "medium_vulnerabilities": 0,
+  "low_vulnerabilities": 0,
+  "vulnerabilities_by_type": {
+    "SMB/NetBIOS Exposure": 2
+  },
+  "most_vulnerable_device": "10.0.2.2",
+  "scan_duration": "6.593914204s",
+  "network_risk_score": 40
+}
