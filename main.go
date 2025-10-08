@@ -1,4 +1,4 @@
-// File: main.go (COMPLETE VERSION)
+// File: main.go (COMPLETE VERSION WITH PROGRESS TRACKING)
 package main
 
 import (
@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"network-scanner/models"
@@ -52,14 +53,20 @@ func main() {
 	// Phase 1: Device Discovery
 	fmt.Println("🔍 Phase 1: Discovering devices...")
 	startTime := time.Now()
+
+	spinner := utils.NewSpinner("Scanning network for active devices...")
+	spinner.Start()
+
 	devices := scanner.DiscoverDevices(networkCIDR, *verbose)
+
+	spinner.Stop()
 
 	if len(devices) == 0 {
 		fmt.Println("\n❌ No devices found on the network")
 		return
 	}
 
-	fmt.Printf("\n✅ Found %d device(s) in %v\n\n", len(devices), time.Since(startTime))
+	fmt.Printf("✅ Found %d device(s) in %v\n\n", len(devices), time.Since(startTime))
 
 	// Phase 2: Port Scanning & Vulnerability Assessment
 	fmt.Println("🔎 Phase 2: Port scanning and vulnerability assessment...")
@@ -68,6 +75,7 @@ func main() {
 	var portsToScan []int
 	if *deep {
 		portsToScan = scanner.AllPorts
+		fmt.Printf("⚠️  Warning: Deep scan will check %d ports per device. This may take a while...\n\n", len(portsToScan))
 	} else {
 		switch *portRange {
 		case "common":
@@ -80,19 +88,34 @@ func main() {
 		}
 	}
 
+	// Create progress tracker for device scanning
+	totalWork := len(devices)
+	progress := utils.NewProgressTracker(totalWork, "Scanning devices")
+	progress.Start()
+
 	var wg sync.WaitGroup
+	var scannedCount int32
+
 	for i := range devices {
 		wg.Add(1)
 		go func(dev *models.Device) {
 			defer wg.Done()
 			scanDevice(dev, portsToScan, !*quick, *verbose)
+
+			// Update progress
+			count := atomic.AddInt32(&scannedCount, 1)
+			progress.SetCurrent(int(count))
 		}(&devices[i])
 	}
 	wg.Wait()
 
+	// Ensure progress completes
+	progress.Complete()
+
 	scanDuration := time.Since(startTime)
 
 	// Sort devices by risk score (highest first)
+	fmt.Println("\n📊 Analyzing results...")
 	sort.Slice(devices, func(i, j int) bool {
 		return scanner.CalculateRiskScore(&devices[i]) > scanner.CalculateRiskScore(&devices[j])
 	})
@@ -103,11 +126,15 @@ func main() {
 	// Generate network summary
 	summary := generateNetworkSummary(devices, scanDuration)
 
-	// Save to JSON
+	// Save results with progress indicator
+	fmt.Println("\n💾 Saving results...")
+	saveSpinner := utils.NewSpinner("Writing scan results to disk...")
+	saveSpinner.Start()
+
 	if err := saveResults(devices, *output); err != nil {
-		fmt.Printf("❌ Error saving results: %v\n", err)
+		saveSpinner.Error(fmt.Sprintf("Error saving results: %v", err))
 	} else {
-		fmt.Printf("\n💾 Results saved to: %s\n", *output)
+		saveSpinner.Success(fmt.Sprintf("Results saved to: %s", *output))
 	}
 
 	// Save summary
@@ -119,10 +146,13 @@ func main() {
 
 	// Generate HTML report if requested
 	if *htmlReport {
+		reportSpinner := utils.NewSpinner("Generating HTML report...")
+		reportSpinner.Start()
+
 		if err := generateHTMLReport(devices, summary, "scan_report.html"); err != nil {
-			fmt.Printf("❌ Error generating HTML report: %v\n", err)
+			reportSpinner.Error(fmt.Sprintf("Error generating HTML report: %v", err))
 		} else {
-			fmt.Printf("📄 HTML report saved to: scan_report.html\n")
+			reportSpinner.Success("HTML report saved to: scan_report.html")
 		}
 	}
 
@@ -131,11 +161,7 @@ func main() {
 	printRecommendations(devices)
 }
 
-func scanDevice(device *models.Device, ports []int, grabBanner bool, verbose bool) {
-	if verbose {
-		fmt.Printf("[*] Scanning %s...\n", device.IP)
-	}
-
+func scanDevice(device *models.Device, ports []int, grabBanner bool, _ bool) {
 	// Port scan
 	device.OpenPorts = scanner.ScanPorts(device.IP, ports, grabBanner)
 
